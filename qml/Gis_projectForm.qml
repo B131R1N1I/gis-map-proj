@@ -37,34 +37,42 @@ Item {
         }
     }
     Text {
-        id: name
-        text: qsTr("Choose your BaseMap: ")
+        id: changeBaseMap_label
+        anchors {
+//            right: parent.right
+            left: changeBaseMap_box.left
+            top: parent.top
+            margins: 5
+        }
+
+        text: qsTr("Change basemap: ")
     }
     ComboBox
     {
         id: changeBaseMap_box
         anchors {
             right: parent.right
-            top: parent.top
+            top: changeBaseMap_label.bottom
             margins: 5
         }
         textRole: "text"
         property int bestWidth: implicitWidth
         width: bestWidth + leftPadding + rightPadding + indicator.width
+
         model: ListModel{
-             ListElement { text: "Topographic"; map: "BasemapTopographic" }
-             ListElement { text: "Streets"; map: "Streets" }
-                         ListElement { text: "Streets (Vector)"}
-                         ListElement { text: "Streets - Night (Vector)"}
-                         ListElement { text: "Imagery (Raster)"}
-                         ListElement { text: "Imagery with Labels (Raster)"}
-                         ListElement { text: "Imagery with Labels (Vector)"}
-                         ListElement { text: "Dark Gray Canvas (Vector)"}
-                         ListElement { text: "Light Gray Canvas (Raster)"}
-                         ListElement { text: "Light Gray Canvas (Vector)"}
-                         ListElement { text: "Navigation (Vector)"}
-                         ListElement { text: "OpenStreetMap (Raster)"}
-                         ListElement { text: "Oceans"}
+             ListElement { text: "Topographic" }
+             ListElement { text: "Streets" }
+             ListElement { text: "Streets (Vector)" }
+             ListElement { text: "Streets - Night (Vector)" }
+             ListElement { text: "Imagery (Raster)" }
+             ListElement { text: "Imagery with Labels (Raster)" }
+             ListElement { text: "Imagery with Labels (Vector)" }
+             ListElement { text: "Dark Gray Canvas (Vector)" }
+             ListElement { text: "Light Gray Canvas (Raster)" }
+             ListElement { text: "Light Gray Canvas (Vector)" }
+             ListElement { text: "Navigation (Vector)" }
+             ListElement { text: "OpenStreetMap (Raster)" }
+             ListElement { text: "Oceans" }
         }
 
         onCurrentTextChanged: {
