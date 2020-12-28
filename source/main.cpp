@@ -11,7 +11,7 @@
 // See the Sample code usage restrictions document for further information.
 //
 
-#include "Gis_project.h"
+#include "headers/Gis_project.h"
 
 #include "ArcGISRuntimeEnvironment.h"
 #include "MapQuickView.h"

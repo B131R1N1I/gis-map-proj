@@ -14,14 +14,17 @@
 #ifndef GIS_PROJECT_H
 #define GIS_PROJECT_H
 
+#include "Point.h"
+#include "GeometryEngine.h"
+
 namespace Esri
 {
-namespace ArcGISRuntime
-{
-class Map;
-class MapQuickView;
-}
-}
+    namespace ArcGISRuntime
+    {
+        class Map;
+        class MapQuickView;
+    } // namespace ArcGISRuntime
+} // namespace Esri
 
 #include <QObject>
 
@@ -29,21 +32,23 @@ class Gis_project : public QObject
 {
     Q_OBJECT
 
-    Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView* mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
+    Q_PROPERTY(Esri::ArcGISRuntime::MapQuickView *mapView READ mapView WRITE setMapView NOTIFY mapViewChanged)
 
 public:
-    explicit Gis_project(QObject* parent = nullptr);
+    explicit Gis_project(QObject *parent = nullptr);
     ~Gis_project() override;
+    Q_INVOKABLE void changeBasemap(const QString& basemap);
 
 signals:
     void mapViewChanged();
 
 private:
-    Esri::ArcGISRuntime::MapQuickView* mapView() const;
-    void setMapView(Esri::ArcGISRuntime::MapQuickView* mapView);
+    Esri::ArcGISRuntime::MapQuickView *mapView() const;
+    void setMapView(Esri::ArcGISRuntime::MapQuickView *mapView);
 
-    Esri::ArcGISRuntime::Map* m_map = nullptr;
-    Esri::ArcGISRuntime::MapQuickView* m_mapView = nullptr;
+    Esri::ArcGISRuntime::Map *m_map = nullptr;
+    Esri::ArcGISRuntime::MapQuickView *m_mapView = nullptr;
+    //protected:
 };
 
 #endif // GIS_PROJECT_H

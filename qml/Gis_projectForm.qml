@@ -12,22 +12,93 @@
 //
 
 import QtQuick 2.6
-import QtQuick.Controls 2.2
+import QtQuick.Controls 2.4
 import Esri.gis_project 1.0
+//import Esri.ArcGISRuntime 100.9
 
 Item {
+
 
     // Create MapQuickView here, and create its Map etc. in C++ code
     MapView {
         id: view
+        objectName: "mapView"
         anchors.fill: parent
         // set focus to enable keyboard navigation
         focus: true
     }
 
+    MenuBar{
+        Menu {
+            contentWidth: 200
+            title: "..."
+
+            MenuItem{text:"CCC"}
+        }
+    }
+    Text {
+        id: changeBaseMap_label
+        anchors {
+//            right: parent.right
+            left: changeBaseMap_box.left
+            top: parent.top
+            margins: 5
+        }
+
+        text: qsTr("Change basemap: ")
+    }
+    ComboBox
+    {
+        id: changeBaseMap_box
+        anchors {
+            right: parent.right
+            top: changeBaseMap_label.bottom
+            margins: 5
+        }
+        textRole: "text"
+        property int bestWidth: implicitWidth
+        width: bestWidth + leftPadding + rightPadding + indicator.width
+
+        model: ListModel{
+             ListElement { text: "Topographic" }
+             ListElement { text: "Streets" }
+             ListElement { text: "Streets (Vector)" }
+             ListElement { text: "Streets - Night (Vector)" }
+             ListElement { text: "Imagery (Raster)" }
+             ListElement { text: "Imagery with Labels (Raster)" }
+             ListElement { text: "Imagery with Labels (Vector)" }
+             ListElement { text: "Dark Gray Canvas (Vector)" }
+             ListElement { text: "Light Gray Canvas (Raster)" }
+             ListElement { text: "Light Gray Canvas (Vector)" }
+             ListElement { text: "Navigation (Vector)" }
+             ListElement { text: "OpenStreetMap (Raster)" }
+             ListElement { text: "Oceans" }
+        }
+
+        onCurrentTextChanged: {
+            g_p.changeBasemap(qsTr(currentText));
+        }
+
+        onModelChanged: {
+            for(let i = 0; i < changeBaseMap_box.model.length; ++i) {
+                metrics.text = changeBaseMap_box.model[i];
+                modelWidth = Math.max(modelWidth, metrics.width);
+            }
+            bestWidth = modelWidth;
+        }
+
+        TextMetrics{
+            id: metrics
+            font: changeBaseMap_box.font
+        }
+
+    }
+
+
+
     // Declare the C++ instance which creates the map etc. and supply the view
     Gis_project {
-        id: model
+        id: g_p
         mapView: view
     }
 }
